@@ -23,14 +23,13 @@ class Ask_a_certificationsController extends Controller
 {
 	public $show_action = true;
 	public $view_col = 'certification';
-	public $listing_cols;
+	public $listing_cols = ['id', 'status', 'user', 'certification', 'sub_category', 'category'];
 	
 	public function __construct() {
 		// Field Access of Listing Columns
 		if(\Dwij\Laraadmin\Helpers\LAHelper::laravel_ver() == 5.3) {
 			$this->middleware(function ($request, $next) {
-				$current_user_id = Auth::user()->id;
-				$listing_cols = ['id', 'status', 'user', 'certification', 'sub_category', 'category'];
+				
 				$this->listing_cols = ModuleFields::listingColumnAccessScan('Ask_a_certifications', $this->listing_cols);
 				return $next($request);
 			});

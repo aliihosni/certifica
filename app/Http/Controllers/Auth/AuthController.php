@@ -47,12 +47,9 @@ class AuthController extends Controller
     {
         $roleCount = Role::count();
 		if($roleCount != 0) {
-			$userCount = User::count();
-			if($userCount == 1) {
+			
 				return view('auth.register');
-			} else {
-				return redirect('login');
-			}
+			
 		} else {
 			return view('errors.error', [
 				'title' => 'Migration not completed',
@@ -107,7 +104,7 @@ class AuthController extends Controller
         
         $employee = Employee::create([
             'name' => $data['name'],
-            'designation' => "Super Admin",
+            'designation' => "Client",
             'mobile' => "0021653137142",
             'mobile2' => "",
             'email' => $data['email'],
@@ -129,7 +126,7 @@ class AuthController extends Controller
             'context_id' => $employee->id,
             'type' => "Employee",
         ]);
-        $role = Role::where('name', 'SUPER_ADMIN')->first();
+        $role = Role::where('name', 'CLIENT')->first();
         $user->attachRole($role);
     
         return $user;

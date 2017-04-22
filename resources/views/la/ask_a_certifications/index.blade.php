@@ -56,11 +56,13 @@
 			{!! Form::open(['action' => 'LA\Ask_a_certificationsController@store', 'id' => 'ask_a_certification-add-form']) !!}
 			<div class="modal-body">
 				<div class="box-body">
+					
                     @la_form($module)
 					
 					{{--
 					@la_input($module, 'status')
-					@la_input($module, 'user')
+					@la_input($module, 'user' => $a = Auth::user()->id )
+
 					@la_input($module, 'certification')
 					@la_input($module, 'sub_category')
 					@la_input($module, 'category')
