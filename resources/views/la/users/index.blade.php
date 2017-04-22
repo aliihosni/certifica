@@ -1,13 +1,15 @@
 @extends("la.layouts.app")
 
 @section("contentheader_title", "Users")
-@section("contentheader_description", "users listing")
+@section("contentheader_description", "Users listing")
 @section("section", "Users")
 @section("sub_section", "Listing")
 @section("htmlheader_title", "Users Listing")
 
 @section("headerElems")
-
+@la_access("Users", "create")
+	<button class="btn btn-success btn-sm pull-right" data-toggle="modal" data-target="#AddModal">Add User</button>
+@endla_access
 @endsection
 
 @section("main-content")
@@ -42,6 +44,38 @@
 		</table>
 	</div>
 </div>
+
+@la_access("Users", "create")
+<div class="modal fade" id="AddModal" role="dialog" aria-labelledby="myModalLabel">
+	<div class="modal-dialog" role="document">
+		<div class="modal-content">
+			<div class="modal-header">
+				<button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+				<h4 class="modal-title" id="myModalLabel">Add User</h4>
+			</div>
+			{!! Form::open(['action' => 'LA\UsersController@store', 'id' => 'user-add-form']) !!}
+			<div class="modal-body">
+				<div class="box-body">
+                    @la_form($module)
+					
+					{{--
+					@la_input($module, 'name')
+					@la_input($module, 'context_id')
+					@la_input($module, 'email')
+					@la_input($module, 'password')
+					@la_input($module, 'type')
+					--}}
+				</div>
+			</div>
+			<div class="modal-footer">
+				<button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+				{!! Form::submit( 'Submit', ['class'=>'btn btn-success']) !!}
+			</div>
+			{!! Form::close() !!}
+		</div>
+	</div>
+</div>
+@endla_access
 
 @endsection
 

@@ -48,7 +48,7 @@ class AuthController extends Controller
         $roleCount = Role::count();
 		if($roleCount != 0) {
 			$userCount = User::count();
-			if($userCount == 0) {
+			if($userCount == 1) {
 				return view('auth.register');
 			} else {
 				return redirect('login');
@@ -108,13 +108,13 @@ class AuthController extends Controller
         $employee = Employee::create([
             'name' => $data['name'],
             'designation' => "Super Admin",
-            'mobile' => "8888888888",
+            'mobile' => "0021653137142",
             'mobile2' => "",
             'email' => $data['email'],
             'gender' => 'Male',
-            'dept' => "1",
-            'city' => "Pune",
-            'address' => "Karve nagar, Pune 411030",
+            'dept' => "2",
+            'city' => "Tunis",
+            'address' => "",
             'about' => "About user / biography",
             'date_birth' => date("Y-m-d"),
             'date_hire' => date("Y-m-d"),

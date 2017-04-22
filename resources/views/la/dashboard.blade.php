@@ -480,8 +480,8 @@
 (function($) {
 	$('body').pgNotification({
 		style: 'circle',
-		title: 'LaraAdmin',
-		message: "Welcome to LaraAdmin...",
+		title: 'Certi Fica',
+		message: "Welcome to Certifica...",
 		position: "top-right",
 		timeout: 0,
 		type: "success",

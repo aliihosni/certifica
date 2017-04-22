@@ -17,13 +17,13 @@ use Collective\Html\FormFacade as Form;
 use Dwij\Laraadmin\Models\Module;
 use Dwij\Laraadmin\Models\ModuleFields;
 
-use App\User;
+use App\Models\User;
 
 class UsersController extends Controller
 {
-	public $show_action = false;
+	public $show_action = true;
 	public $view_col = 'name';
-	public $listing_cols = ['id', 'name', 'email', 'type'];
+	public $listing_cols = ['id', 'name', 'context_id', 'email', 'password', 'type'];
 	
 	public function __construct() {
 		// Field Access of Listing Columns
@@ -58,6 +58,43 @@ class UsersController extends Controller
 	}
 
 	/**
+	 * Show the form for creating a new user.
+	 *
+	 * @return \Illuminate\Http\Response
+	 */
+	public function create()
+	{
+		//
+	}
+
+	/**
+	 * Store a newly created user in database.
+	 *
+	 * @param  \Illuminate\Http\Request  $request
+	 * @return \Illuminate\Http\Response
+	 */
+	public function store(Request $request)
+	{
+		if(Module::hasAccess("Users", "create")) {
+		
+			$rules = Module::validateRules("Users", $request);
+			
+			$validator = Validator::make($request->all(), $rules);
+			
+			if ($validator->fails()) {
+				return redirect()->back()->withErrors($validator)->withInput();
+			}
+			
+			$insert_id = Module::insert("Users", $request);
+			
+			return redirect()->route(config('laraadmin.adminRoute') . '.users.index');
+			
+		} else {
+			return redirect(config('laraadmin.adminRoute')."/");
+		}
+	}
+
+	/**
 	 * Display the specified user.
 	 *
 	 * @param  int  $id
@@ -66,19 +103,100 @@ class UsersController extends Controller
 	public function show($id)
 	{
 		if(Module::hasAccess("Users", "view")) {
-			$user = User::findOrFail($id);
+			
+			$user = User::find($id);
 			if(isset($user->id)) {
-				if($user['type'] == "Employee") {
-					return redirect(config('laraadmin.adminRoute') . '/employees/'.$user->id);
-				} else if($user['type'] == "Client") {
-					return redirect(config('laraadmin.adminRoute') . '/clients/'.$user->id);
-				}
+				$module = Module::get('Users');
+				$module->row = $user;
+				
+				return view('la.users.show', [
+					'module' => $module,
+					'view_col' => $this->view_col,
+					'no_header' => true,
+					'no_padding' => "no-padding"
+				])->with('user', $user);
 			} else {
 				return view('errors.404', [
 					'record_id' => $id,
 					'record_name' => ucfirst("user"),
 				]);
 			}
+		} else {
+			return redirect(config('laraadmin.adminRoute')."/");
+		}
+	}
+
+	/**
+	 * Show the form for editing the specified user.
+	 *
+	 * @param  int  $id
+	 * @return \Illuminate\Http\Response
+	 */
+	public function edit($id)
+	{
+		if(Module::hasAccess("Users", "edit")) {			
+			$user = User::find($id);
+			if(isset($user->id)) {	
+				$module = Module::get('Users');
+				
+				$module->row = $user;
+				
+				return view('la.users.edit', [
+					'module' => $module,
+					'view_col' => $this->view_col,
+				])->with('user', $user);
+			} else {
+				return view('errors.404', [
+					'record_id' => $id,
+					'record_name' => ucfirst("user"),
+				]);
+			}
+		} else {
+			return redirect(config('laraadmin.adminRoute')."/");
+		}
+	}
+
+	/**
+	 * Update the specified user in storage.
+	 *
+	 * @param  \Illuminate\Http\Request  $request
+	 * @param  int  $id
+	 * @return \Illuminate\Http\Response
+	 */
+	public function update(Request $request, $id)
+	{
+		if(Module::hasAccess("Users", "edit")) {
+			
+			$rules = Module::validateRules("Users", $request, true);
+			
+			$validator = Validator::make($request->all(), $rules);
+			
+			if ($validator->fails()) {
+				return redirect()->back()->withErrors($validator)->withInput();;
+			}
+			
+			$insert_id = Module::updateRow("Users", $request, $id);
+			
+			return redirect()->route(config('laraadmin.adminRoute') . '.users.index');
+			
+		} else {
+			return redirect(config('laraadmin.adminRoute')."/");
+		}
+	}
+
+	/**
+	 * Remove the specified user from storage.
+	 *
+	 * @param  int  $id
+	 * @return \Illuminate\Http\Response
+	 */
+	public function destroy($id)
+	{
+		if(Module::hasAccess("Users", "delete")) {
+			User::find($id)->delete();
+			
+			// Redirecting to index() method
+			return redirect()->route(config('laraadmin.adminRoute') . '.users.index');
 		} else {
 			return redirect(config('laraadmin.adminRoute')."/");
 		}
