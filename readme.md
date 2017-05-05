@@ -1,4 +1,5 @@
-#Getting Started
+# Getting Started
+
 extract the file and put it in htdocs
 
 Change the DB details in the .env file and also in the /config/database.php
