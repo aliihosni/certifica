@@ -1,3 +1,17 @@
+#Getting Started
+extract the file and put it in htdocs
+
+Change the DB details in the .env file and also in the /config/database.php
+
+Then open CMD
+
+Go to the directory where the project is
+
+Enter the command composer install
+
+Enter the command php artisan migrate
+
+run the project on the browser
 # Laravel PHP Framework
 
 [![Build Status](https://travis-ci.org/laravel/framework.svg)](https://travis-ci.org/laravel/framework)
