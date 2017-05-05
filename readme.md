@@ -1,10 +1,10 @@
 # Getting Started
 
-extract the file and put it in htdocs
+Extract the file and put it in htdocs
 
 Change the DB details in the .env file and also in the /config/database.php
 
-Then open CMD
+Open CMD
 
 Go to the directory where the project is
 
@@ -12,7 +12,13 @@ Enter the command composer install
 
 Enter the command php artisan migrate
 
-run the project on the browser
+Run the project on the browser
+
+# PHP project
+This project was developed by Ali Hosni Bouslimi
+Contact: hosni.exe@gmail.com
+-> School Project
+
 # Laravel PHP Framework
 
 [![Build Status](https://travis-ci.org/laravel/framework.svg)](https://travis-ci.org/laravel/framework)
